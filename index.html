@@ -608,6 +608,150 @@
         td {
             border-bottom: 1px solid var(--border-gold);
         }
+
+        /* ===== MOBILE POS OPTIMIZATION ===== */
+        /* Floating Cart Button (mobile only) */
+        #fab-cart {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 45;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D4AF37 0%, #997E25 100%);
+            color: #120D0B;
+            border: none;
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5), 0 2px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #fab-cart:active {
+            transform: scale(0.92);
+        }
+        #fab-cart .fab-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 22px;
+            height: 22px;
+            background: #dc2626;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            box-shadow: 0 2px 6px rgba(220,38,38,0.5);
+        }
+        #fab-cart .fab-total {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(18, 13, 11, 0.9);
+            color: #D4AF37;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            white-space: nowrap;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Cart Overlay (mobile bottom sheet) */
+        #mobile-cart-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 48;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #mobile-cart-overlay.active {
+            opacity: 1;
+        }
+        #mobile-cart-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 49;
+            max-height: 92vh;
+            background: var(--bg-base);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border-top: 2px solid rgba(212, 175, 55, 0.25);
+        }
+        #mobile-cart-sheet.active {
+            transform: translateY(0);
+        }
+        #mobile-cart-sheet .sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: rgba(212, 175, 55, 0.35);
+            border-radius: 4px;
+            margin: 10px auto 6px;
+            flex-shrink: 0;
+        }
+
+        /* Mobile-specific layout adjustments */
+        @media (max-width: 767px) {
+            /* Catalog takes full height on mobile */
+            #view-penjual > .pos-catalog-panel {
+                height: 100% !important;
+            }
+            /* Hide the inline cart panel on mobile */
+            #view-penjual > .pos-cart-panel {
+                display: none !important;
+            }
+            /* Show floating cart button ONLY when POS view is active */
+            #view-penjual:not(.hidden) ~ #fab-cart {
+                display: flex;
+            }
+            /* Compact catalog header */
+            .pos-catalog-header {
+                padding: 10px 12px !important;
+                gap: 8px !important;
+            }
+            .pos-catalog-header h2 {
+                font-size: 15px !important;
+            }
+            .pos-catalog-header .pos-tab-btn {
+                padding: 6px 14px !important;
+                font-size: 11px !important;
+            }
+            /* Better product cards on mobile */
+            #pos-menu-grid {
+                gap: 8px !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            #pos-menu-grid > div {
+                min-height: 88px;
+            }
+        }
+
+        /* Desktop: hide mobile-only elements */
+        @media (min-width: 768px) {
+            #fab-cart,
+            #mobile-cart-overlay,
+            #mobile-cart-sheet {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -1452,14 +1596,14 @@
             <div id="view-penjual"
                 class="hidden h-full flex flex-col md:flex-row bg-espresso overflow-hidden w-full absolute inset-0 z-10">
                 <!-- Kiri: Katalog -->
-                <div class="w-full h-[50%] md:h-full md:flex-1 flex flex-col overflow-hidden relative">
+                <div class="pos-catalog-panel w-full h-full md:h-full md:flex-1 flex flex-col overflow-hidden relative">
                     <!-- Ornaments -->
                     <div
                         class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-luxury-gold/5 to-transparent pointer-events-none">
                     </div>
 
                     <div
-                        class="glass border-b border-luxury-gold/10 p-4 shadow-sm z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 flex-shrink-0">
+                        class="pos-catalog-header glass border-b border-luxury-gold/10 p-4 shadow-sm z-20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 flex-shrink-0">
                         <div class="flex items-center gap-2">
                             <h2 class="text-lg md:text-xl font-bold gold-text tracking-wide">Katalog Produk</h2>
                         </div>
@@ -1485,9 +1629,9 @@
                     </div>
                 </div>
 
-                <!-- Kanan: Cart -->
+                <!-- Kanan: Cart (hidden on mobile, visible on desktop) -->
                 <div
-                    class="w-full h-[50%] md:h-full md:w-[24rem] lg:w-[26rem] glass-card flex flex-col border-t border-luxury-gold/20 md:border-t-0 md:border-l shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-30 flex-shrink-0 relative overflow-hidden">
+                    class="pos-cart-panel w-full h-[50%] md:h-full md:w-[24rem] lg:w-[26rem] glass-card flex flex-col border-t border-luxury-gold/20 md:border-t-0 md:border-l shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-30 flex-shrink-0 relative overflow-hidden">
                     <div
                         class="p-3 md:p-5 bg-charcoal/80 border-b border-luxury-800 flex justify-between items-center flex-shrink-0 relative z-10 backdrop-blur-md">
                         <div class="flex items-center gap-2">
@@ -1577,6 +1721,73 @@
                                 class="w-full gold-btn font-bold py-3 md:py-4 rounded-xl text-sm tracking-widest uppercase shadow-[0_5px_20px_rgba(212,175,55,0.25)]">Proses
                                 Pembayaran</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLOATING CART BUTTON (mobile only) -->
+            <button id="fab-cart" onclick="toggleMobileCart()" aria-label="Buka Keranjang">
+                <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                    </path>
+                </svg>
+                <span class="fab-badge" id="fab-badge">0</span>
+                <span class="fab-total" id="fab-total">Rp 0</span>
+            </button>
+
+            <!-- MOBILE CART BOTTOM SHEET -->
+            <div id="mobile-cart-overlay" onclick="toggleMobileCart()"></div>
+            <div id="mobile-cart-sheet">
+                <div class="sheet-handle"></div>
+                <!-- Sheet Header -->
+                <div class="p-3 flex justify-between items-center border-b border-luxury-gold/20 flex-shrink-0">
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleMobileCart()" class="w-8 h-8 flex items-center justify-center rounded-full bg-luxury-800 text-luxury-200 hover:text-luxury-50">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <h2 class="font-bold text-sm text-luxury-50 tracking-wide">Pesanan Baru</h2>
+                        <span id="mobile-cart-count" class="text-[10px] bg-luxury-gold/20 text-luxury-gold px-2 py-0.5 rounded-full font-bold">0 item</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="bukaRiwayatKasir()" class="text-[10px] bg-luxury-800 text-luxury-100 border border-luxury-600 px-3 py-1.5 rounded-lg">Riwayat</button>
+                        <button onclick="clrCart()" class="text-[10px] bg-red-900/50 text-red-200 border border-red-500/30 px-3 py-1.5 rounded-lg">Bersihkan</button>
+                    </div>
+                </div>
+                <!-- Sheet Cart Items -->
+                <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-3 space-y-2 min-h-0" style="max-height: 35vh;"></div>
+                <!-- Sheet Payment -->
+                <div class="p-3 border-t border-luxury-gold/20 bg-charcoal/90 flex-shrink-0">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-[10px] font-bold text-luxury-300 uppercase tracking-widest">Metode Bayar</label>
+                        <div class="flex gap-1 bg-luxury-900 p-1 rounded-lg border border-luxury-700/50">
+                            <label class="flex items-center justify-center px-3 py-1.5 rounded-md cursor-pointer transition has-[:checked]:bg-luxury-700 has-[:checked]:shadow-sm">
+                                <input type="radio" name="metode-bayar-m" value="CASH" checked class="hidden" onchange="tgMetMobile()">
+                                <span style="color: var(--text-primary)" class="text-[10px] font-bold tracking-wide">CASH</span>
+                            </label>
+                            <label class="flex items-center justify-center px-3 py-1.5 rounded-md cursor-pointer transition has-[:checked]:bg-blue-900/50 has-[:checked]:border has-[:checked]:border-blue-500/30">
+                                <input type="radio" name="metode-bayar-m" value="QRIS" class="hidden" onchange="tgMetMobile()">
+                                <span style="color: var(--text-primary)" class="text-[10px] font-bold tracking-wide">QRIS</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="area-cash-input-m" class="mb-2 bg-luxury-900/50 p-2.5 rounded-xl border border-luxury-700/50">
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <label class="text-[10px] font-bold text-luxury-300 uppercase">Tunai (Rp)</label>
+                            <input type="number" id="input-uang-cash-m" class="w-2/3 glass-input p-1.5 rounded-lg text-sm font-bold text-right text-luxury-gold placeholder-luxury-600" placeholder="0" oninput="hitKembMobile()">
+                        </div>
+                        <div class="flex justify-between items-center pt-1.5 border-t border-luxury-800">
+                            <span class="text-[10px] font-bold text-luxury-400 uppercase">Kembalian</span>
+                            <span id="text-kembalian-m" class="text-xs font-bold text-luxury-100 bg-luxury-800 px-2 py-0.5 rounded">Rp 0</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-end mb-3 bg-espresso/80 p-2.5 rounded-xl border border-luxury-gold/10">
+                        <span class="font-bold text-luxury-300 text-xs uppercase">Total</span>
+                        <span id="pos-total-m" class="text-xl font-black gold-text leading-none">Rp 0</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-req-free-pos-m" onclick="oMod('modal-req-free')" class="w-[30%] bg-orange-900/60 text-orange-200 border border-orange-500/30 font-bold py-3 rounded-xl text-[10px] uppercase hidden flex items-center justify-center">Req Free</button>
+                        <button onclick="doPayMobile()" class="w-full gold-btn font-bold py-3 rounded-xl text-sm tracking-widest uppercase shadow-[0_5px_20px_rgba(212,175,55,0.25)]">Proses Pembayaran</button>
                     </div>
                 </div>
             </div>
@@ -2268,7 +2479,7 @@
             cMod('modal-edit-trx'); renDash(); renJual();
         }
         function setPosTab(t) { currentPosTab = t; document.querySelectorAll('.pos-tab-btn').forEach(b => { b.classList.remove('gold-btn', 'text-white'); b.classList.add('glass-card', 'text-luxury-100'); }); let a = el('btn-pos-' + t); if (a) { a.classList.remove('glass-card', 'text-luxury-100'); a.classList.add('gold-btn', 'text-white'); } renPOS(); }
-        function renPOS() { let g = el('pos-menu-grid'); g.innerHTML = ''; let f = st.menu.filter(m => (m.kategori || (isSrp(m.nama) ? 'SIRUP' : 'KOPI')) === currentPosTab).sort((a, b) => gNm(a.nama).localeCompare(gNm(b.nama))); if (!f.length) return g.innerHTML = `<div class="col-span-full text-center text-luxury-300">Kosong</div>`; f.forEach(m => { let n = gNm(m.nama), c = m.kategori === 'BOTOLAN' ? 'bg-blue-900/30' : (currentPosTab === 'SIRUP' ? 'bg-yellow-900/30' : 'bg-coffee-100'); g.innerHTML += `<div onclick="pSelM('${m.id}')" class="glass-card border border-luxury-700/50 p-2 cursor-pointer active:scale-95 flex flex-col justify-center items-center h-24 rounded-xl shadow-sm"><div class="w-8 h-8 ${c} rounded-full flex items-center justify-center font-bold mb-2">${n.charAt(0)}</div><h3 class="font-bold text-[10px] leading-tight text-center line-clamp-2">${n}</h3></div>`; }); }
+        function renPOS() { let g = el('pos-menu-grid'); g.innerHTML = ''; let f = st.menu.filter(m => (m.kategori || (isSrp(m.nama) ? 'SIRUP' : 'KOPI')) === currentPosTab).sort((a, b) => gNm(a.nama).localeCompare(gNm(b.nama))); if (!f.length) return g.innerHTML = `<div class="col-span-full text-center text-luxury-300">Kosong</div>`; f.forEach(m => { let n = gNm(m.nama), c = m.kategori === 'BOTOLAN' ? 'bg-blue-900/30' : (currentPosTab === 'SIRUP' ? 'bg-yellow-900/30' : 'bg-coffee-100'); g.innerHTML += `<div onclick="pSelM('${m.id}')" class="glass-card border border-luxury-700/50 p-3 cursor-pointer active:scale-95 flex flex-col justify-center items-center h-24 rounded-xl shadow-sm"><div class="w-9 h-9 ${c} rounded-full flex items-center justify-center font-bold text-sm mb-1.5">${n.charAt(0)}</div><h3 class="font-bold text-[11px] leading-tight text-center line-clamp-2">${n}</h3></div>`; }); }
         function pSelM(id) {
             let m = st.menu.find(x => x.id === id); if (!m) return; curMenu = m;
             let iS = currentPosTab === 'SIRUP', iB = m.kategori === 'BOTOLAN';
@@ -2297,7 +2508,29 @@
             else cart.push({ menuId: curMenu.id, nama: gNm(curMenu.nama), ukuran: uk, harga: h, qty: q, subtotal: (h * q) });
             cMod('modal-pilih-ukuran'); renCart();
         }
-        function renCart() { let c = el('pos-cart-items'), t = 0; c.innerHTML = ''; if (!cart.length) { c.innerHTML = `<div class="text-center text-luxury-300 text-xs mt-4">Kosong</div>`; el('pos-total').textContent = 'Rp 0'; hitKemb(); return; } cart.forEach((i, x) => { t += i.subtotal; let ukT = i.ukuran === '-' ? '' : ` <span class="font-normal text-luxury-200">(${i.ukuran})</span>`; c.innerHTML += `<div class="glass-card p-2 border border-luxury-700/50 rounded relative"><button onclick="rmCart(${x})" class="absolute -top-2 -right-2 bg-red-900/200 text-white rounded-full w-5 h-5 text-xs">&times;</button><div class="flex justify-between"><div class="text-xs font-bold">${i.nama}${ukT}</div><div class="font-bold text-luxury-gold">${fRp(i.subtotal)}</div></div><div class="text-[10px]">${i.qty} x ${fRp(i.harga)}</div></div>`; }); el('pos-total').textContent = fRp(t); hitKemb(); }
+        function renCart() {
+            let c = el('pos-cart-items'), mc = el('mobile-cart-items'), t = 0;
+            c.innerHTML = ''; if (mc) mc.innerHTML = '';
+            if (!cart.length) {
+                c.innerHTML = `<div class="text-center text-luxury-300 text-xs mt-4">Kosong</div>`;
+                if (mc) mc.innerHTML = `<div class="text-center text-luxury-300 text-xs mt-4">Keranjang masih kosong</div>`;
+                el('pos-total').textContent = 'Rp 0';
+                if (el('pos-total-m')) el('pos-total-m').textContent = 'Rp 0';
+                updateFabCart(0, 0); hitKemb(); return;
+            }
+            let itemsHtml = '';
+            cart.forEach((i, x) => {
+                t += i.subtotal;
+                let ukT = i.ukuran === '-' ? '' : ` <span class="font-normal text-luxury-200">(${i.ukuran})</span>`;
+                itemsHtml += `<div class="glass-card p-3 border border-luxury-700/50 rounded-lg relative"><button onclick="rmCart(${x})" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 text-xs font-bold shadow-md">&times;</button><div class="flex justify-between items-start"><div class="text-xs font-bold pr-4">${i.nama}${ukT}</div><div class="font-bold text-luxury-gold text-xs whitespace-nowrap">${fRp(i.subtotal)}</div></div><div class="text-[10px] text-luxury-300 mt-0.5">${i.qty} x ${fRp(i.harga)}</div></div>`;
+            });
+            c.innerHTML = itemsHtml;
+            if (mc) mc.innerHTML = itemsHtml;
+            el('pos-total').textContent = fRp(t);
+            if (el('pos-total-m')) el('pos-total-m').textContent = fRp(t);
+            updateFabCart(cart.length, t);
+            hitKemb();
+        }
         function rmCart(x) { cart.splice(x, 1); renCart(); }
         function clrCart() { if (cart.length && confirm('Kosongkan?')) { cart = []; renCart(); } }
         function tgMet() { el('area-cash-input').style.display = document.querySelector('input[name="metode-bayar"]:checked').value === 'CASH' ? 'block' : 'none'; hitKemb(); }
@@ -2390,7 +2623,7 @@
             if (st.currentUser?.role === 'pemilik') unsubs.push(onSnapshot(collection(db, getP('stok')), s => { st.stok = s.docs.map(d => d.data()); renDash(); }));
             unsubs.push(onSnapshot(doc(db, getP('config'), 'app_settings'), (snap) => { if (snap.exists()) { st.appConfig = snap.data(); if (!st.appConfig.package) st.appConfig.package = 'pro'; if (!st.appConfig.licenseType) { st.appConfig.licenseType = 'lifetime'; st.appConfig.expiryDate = null; } } else { st.appConfig = { package: 'pro', licenseType: 'lifetime', licenseDuration: 0, expiryDate: null }; } applyPackageUI(); }));
         }
-        const showV = v => { ['view-login', 'view-superadmin', 'view-pemilik', 'view-penjual'].forEach(i => el(i).classList.add('hidden')); el('main-header').classList.toggle('hidden', v === 'view-login'); el(v).classList.remove('hidden'); };
+        const showV = v => { ['view-login', 'view-superadmin', 'view-pemilik', 'view-penjual'].forEach(i => el(i).classList.add('hidden')); el('main-header').classList.toggle('hidden', v === 'view-login'); el(v).classList.remove('hidden'); /* FAB visibility */ const fab = el('fab-cart'); if (fab) { if (v === 'view-penjual' && window.innerWidth < 768) { fab.style.display = 'flex'; } else { fab.style.display = 'none'; } } /* Close mobile cart if open */ if (v !== 'view-penjual' && mobileCartOpen) toggleMobileCart(); };
         const oMod = (m, c = '') => { let e = el(m); e.style.display = ''; e.classList.remove('hidden'); e.classList.add('flex'); requestAnimationFrame(() => { e.classList.remove('opacity-0'); e.classList.add('opacity-100'); }); if (m === 'modal-tambah-akun') { el('akun-context').value = c; el('opt-pemilik').style.display = c === 'pemilik' ? 'none' : 'block'; if (c === 'pemilik') el('new-role').value = 'penjual'; el('area-akses-free').style.display = el('new-role').value === 'penjual' ? 'block' : 'none'; } };
         const cMod = m => { let e = el(m); e.classList.remove('opacity-100'); e.classList.add('opacity-0'); setTimeout(() => { e.classList.remove('flex'); e.classList.add('hidden'); e.style.display = 'none'; }, 300); };
         function onDateFilterChange() { if (st.currentUser?.role !== 'pemilik') return; renDash(); renJual(); }
@@ -2435,7 +2668,72 @@
             el('input-logo-file').value = '';
         }
 
-        Object.assign(window, { logout, oMod, cMod, handleLogin, hTambahAkun, hapusUser, toggleReqFree, hUbahPass, switchTab, hInputStok, tglKtg, hSimpanMenu, edMenu, batEdMenu, hapMenu, renJual, downloadCSV, prt, renDash, upEdPrc, oEdTrx, svEdTrx, pSelM, chgRad, uQty, addCart, rmCart, clrCart, doPay, tgMet, hitKemb, setPosTab, setMenuTab, bukaRiwayatKasir, bukaModalEditPass, cetakWebBrowser, cetakRawBT, submitFreeOrder, approveFree, rejectFree, onDateFilterChange, setPackage, applyPackageUI, simpanLisensi, toggleLicenseInput, uploadLogo, hapusLogo, toggleTheme });
+        // ===== MOBILE CART FUNCTIONS =====
+        let mobileCartOpen = false;
+        function toggleMobileCart() {
+            mobileCartOpen = !mobileCartOpen;
+            const overlay = el('mobile-cart-overlay');
+            const sheet = el('mobile-cart-sheet');
+            const fab = el('fab-cart');
+            if (mobileCartOpen) {
+                overlay.style.display = 'flex';
+                sheet.style.display = 'flex';
+                fab.style.display = 'none';
+                requestAnimationFrame(() => { overlay.classList.add('active'); sheet.classList.add('active'); });
+                // Sync mobile payment method with desktop
+                const desktopMet = document.querySelector('input[name="metode-bayar"]:checked')?.value || 'CASH';
+                document.querySelectorAll('input[name="metode-bayar-m"]').forEach(r => { r.checked = r.value === desktopMet; });
+                if (el('input-uang-cash-m')) el('input-uang-cash-m').value = el('input-uang-cash')?.value || '';
+                tgMetMobile();
+            } else {
+                overlay.classList.remove('active');
+                sheet.classList.remove('active');
+                setTimeout(() => { overlay.style.display = 'none'; sheet.style.display = 'none'; if (window.innerWidth < 768) fab.style.display = 'flex'; }, 350);
+            }
+        }
+        function updateFabCart(count, total) {
+            const badge = el('fab-badge');
+            const fabTotal = el('fab-total');
+            const mCount = el('mobile-cart-count');
+            if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none'; }
+            if (fabTotal) { fabTotal.textContent = count > 0 ? fRp(total) : 'Rp 0'; fabTotal.style.display = count > 0 ? 'block' : 'none'; }
+            if (mCount) mCount.textContent = count + ' item';
+            // Show/hide req free button on mobile too
+            const reqFreeM = el('btn-req-free-pos-m');
+            const reqFreeD = el('btn-req-free-pos');
+            if (reqFreeM && reqFreeD) reqFreeM.style.display = reqFreeD.style.display;
+        }
+        function tgMetMobile() {
+            const met = document.querySelector('input[name="metode-bayar-m"]:checked')?.value;
+            if (el('area-cash-input-m')) el('area-cash-input-m').style.display = met === 'CASH' ? 'block' : 'none';
+            // Sync with desktop
+            document.querySelectorAll('input[name="metode-bayar"]').forEach(r => { r.checked = r.value === met; });
+            tgMet();
+            hitKembMobile();
+        }
+        function hitKembMobile() {
+            let t = cart.reduce((s, i) => s + i.subtotal, 0);
+            const met = document.querySelector('input[name="metode-bayar-m"]:checked')?.value;
+            const tk = el('text-kembalian-m');
+            if (!tk) return;
+            if (met !== 'CASH') { tk.textContent = 'Rp 0'; tk.className = 'text-xs font-bold text-luxury-100 bg-luxury-800 px-2 py-0.5 rounded'; return; }
+            let u = parseInt(el('input-uang-cash-m')?.value) || 0, k = u - t;
+            if (k < 0 && t > 0 && u > 0) { tk.textContent = 'Kurang!'; tk.className = 'text-xs font-bold text-red-400'; }
+            else { tk.textContent = fRp(Math.max(0, k)); tk.className = 'text-xs font-bold text-luxury-100 bg-luxury-800 px-2 py-0.5 rounded'; }
+        }
+        async function doPayMobile() {
+            if (!cart.length) return;
+            // Sync mobile values to desktop before paying
+            const met = document.querySelector('input[name="metode-bayar-m"]:checked')?.value || 'CASH';
+            document.querySelectorAll('input[name="metode-bayar"]').forEach(r => { r.checked = r.value === met; });
+            if (el('input-uang-cash')) el('input-uang-cash').value = el('input-uang-cash-m')?.value || '';
+            tgMet();
+            // Close mobile cart first, then process payment
+            if (mobileCartOpen) toggleMobileCart();
+            await doPay();
+        }
+
+        Object.assign(window, { logout, oMod, cMod, handleLogin, hTambahAkun, hapusUser, toggleReqFree, hUbahPass, switchTab, hInputStok, tglKtg, hSimpanMenu, edMenu, batEdMenu, hapMenu, renJual, downloadCSV, prt, renDash, upEdPrc, oEdTrx, svEdTrx, pSelM, chgRad, uQty, addCart, rmCart, clrCart, doPay, tgMet, hitKemb, setPosTab, setMenuTab, bukaRiwayatKasir, bukaModalEditPass, cetakWebBrowser, cetakRawBT, submitFreeOrder, approveFree, rejectFree, onDateFilterChange, setPackage, applyPackageUI, simpanLisensi, toggleLicenseInput, uploadLogo, hapusLogo, toggleTheme, toggleMobileCart, tgMetMobile, hitKembMobile, doPayMobile });
 
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light-mode');
