@@ -28,10 +28,47 @@
         }
     </script>
     <style>
+        /* ===== CSS THEME VARIABLES ===== */
+        :root {
+            --bg-base: #120D0B;
+            --bg-card: rgba(30, 22, 20, 0.92);
+            --bg-glass: rgba(30, 22, 20, 0.72);
+            --bg-input: rgba(18, 13, 11, 0.65);
+            --bg-sidebar: #1A1210;
+            --text-primary: #E8D8C4;
+            --text-muted: #9B7E6A;
+            --text-faint: #5A3D2E;
+            --border-gold: rgba(212, 175, 55, 0.22);
+            --border-input: rgba(212, 175, 55, 0.35);
+            --scrollbar-bg: #1E1614;
+            --scrollbar-th: #4F3118;
+            --row-hover: rgba(212, 175, 55, 0.05);
+            --th-bg: rgba(18, 13, 11, 0.6);
+        }
+
+        /* ===== LIGHT MODE OVERRIDES ===== */
+        body.light-mode {
+            --bg-base: #F5F0E8;
+            --bg-card: rgba(255, 252, 245, 0.97);
+            --bg-glass: rgba(245, 240, 232, 0.90);
+            --bg-input: rgba(255, 252, 248, 0.95);
+            --bg-sidebar: #FBF7F0;
+            --text-primary: #2C1A0E;
+            --text-muted: #7A5A3A;
+            --text-faint: #B89870;
+            --border-gold: rgba(180, 130, 30, 0.30);
+            --border-input: rgba(180, 130, 30, 0.50);
+            --scrollbar-bg: #EDE5D8;
+            --scrollbar-th: #C8A060;
+            --row-hover: rgba(180, 130, 30, 0.07);
+            --th-bg: rgba(240, 230, 215, 0.8);
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: #120D0B;
-            color: #E8D8C4;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         ::-webkit-scrollbar {
@@ -40,44 +77,414 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #4F3118;
+            background: var(--scrollbar-th);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #1E1614;
+            background: var(--scrollbar-bg);
         }
 
         .glass {
-            background: rgba(30, 22, 20, 0.7);
+            background: var(--bg-glass);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
 
         .glass-card {
-            background: linear-gradient(145deg, rgba(30, 22, 20, 0.9), rgba(18, 13, 11, 0.9));
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .glass-input {
-            background: rgba(18, 13, 11, 0.6);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: #E8D8C4;
+            background: var(--bg-input);
+            border: 1px solid var(--border-input);
+            color: var(--text-primary);
             outline: none;
             transition: all 0.3s ease;
         }
 
         .glass-input:focus {
             border-color: #D4AF37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
         }
 
+        /* Fix select/option text visibility */
+        select.glass-input option,
+        select option {
+            background: var(--bg-base);
+            color: var(--text-primary);
+        }
+
+        body.light-mode select.glass-input option,
+        body.light-mode select option {
+            background: #FBF7F0;
+            color: #2C1A0E;
+        }
+
+        /* ===== ALWAYS: input/select use CSS vars ===== */
+        input[type="number"],
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            color: var(--text-primary);
+        }
+
+        select {
+            color: var(--text-primary);
+            background: var(--bg-input);
+        }
+
+        select option {
+            background: var(--bg-base);
+            color: var(--text-primary);
+        }
+
+        /* Fix all table rows */
+        thead tr {
+            background: var(--th-bg);
+        }
+
+        th {
+            color: var(--text-muted) !important;
+        }
+
+        tr:hover {
+            background: var(--row-hover);
+        }
+
+        td {
+            color: var(--text-primary);
+        }
+
+        /* Sidebar */
+        #pemilik-sidebar {
+            background: var(--bg-sidebar) !important;
+        }
+
+        /* ===== LIGHT MODE: ALL COLOR OVERRIDES ===== */
+        /* luxury text → warm dark brown */
+        body.light-mode .text-luxury-50 {
+            color: #1E1008 !important;
+        }
+
+        body.light-mode .text-luxury-100 {
+            color: #2C1A0E !important;
+        }
+
+        body.light-mode .text-luxury-200 {
+            color: #3D2510 !important;
+        }
+
+        body.light-mode .text-luxury-300 {
+            color: #5A3820 !important;
+        }
+
+        body.light-mode .text-luxury-400 {
+            color: #7A5A3A !important;
+        }
+
+        body.light-mode .text-luxury-500 {
+            color: #9A7050 !important;
+        }
+
+        body.light-mode .text-luxury-600 {
+            color: #B89070 !important;
+        }
+
+        /* colored text → darken for light bg */
+        body.light-mode .text-blue-100,
+        body.light-mode .text-blue-200 {
+            color: #1e3a8a !important;
+        }
+
+        body.light-mode .text-blue-300,
+        body.light-mode .text-blue-400 {
+            color: #1d4ed8 !important;
+        }
+
+        body.light-mode .text-cyan-100,
+        body.light-mode .text-cyan-200 {
+            color: #0c6678 !important;
+        }
+
+        body.light-mode .text-cyan-300,
+        body.light-mode .text-cyan-400 {
+            color: #0e7490 !important;
+        }
+
+        body.light-mode .text-orange-100,
+        body.light-mode .text-orange-200 {
+            color: #9a3412 !important;
+        }
+
+        body.light-mode .text-orange-300,
+        body.light-mode .text-orange-400 {
+            color: #c2410c !important;
+        }
+
+        body.light-mode .text-red-100,
+        body.light-mode .text-red-200 {
+            color: #b91c1c !important;
+        }
+
+        body.light-mode .text-red-300,
+        body.light-mode .text-red-400 {
+            color: #991b1b !important;
+        }
+
+        body.light-mode .text-green-100,
+        body.light-mode .text-green-200 {
+            color: #166534 !important;
+        }
+
+        body.light-mode .text-green-300,
+        body.light-mode .text-green-400 {
+            color: #15803d !important;
+        }
+
+        body.light-mode .text-purple-300,
+        body.light-mode .text-purple-400 {
+            color: #6b21a8 !important;
+        }
+
+        body.light-mode .text-yellow-400 {
+            color: #b45309 !important;
+        }
+
+        /* Backgrounds → warm light tones */
+        body.light-mode .bg-espresso {
+            background-color: #F5F0E8 !important;
+        }
+
+        body.light-mode .bg-luxury-800 {
+            background-color: #E0D0B8 !important;
+        }
+
+        body.light-mode .bg-luxury-900 {
+            background-color: #EDE5D5 !important;
+        }
+
+        /* Wildcard: all opacity-based luxury/charcoal/espresso bgs */
+        body.light-mode [class*="bg-luxury-9"] {
+            background-color: rgba(200, 180, 150, 0.20) !important;
+        }
+
+        body.light-mode [class*="bg-charcoal"] {
+            background-color: rgba(220, 210, 195, 0.55) !important;
+        }
+
+        /* Colored inventory input bgs → light tints */
+        body.light-mode [class*="bg-blue-9"] {
+            background-color: rgba(59, 130, 246, 0.10) !important;
+        }
+
+        body.light-mode [class*="bg-cyan-9"] {
+            background-color: rgba(6, 182, 212, 0.10) !important;
+        }
+
+        body.light-mode [class*="bg-orange-9"] {
+            background-color: rgba(234, 88, 12, 0.10) !important;
+        }
+
+        body.light-mode [class*="bg-red-9"] {
+            background-color: rgba(239, 68, 68, 0.10) !important;
+        }
+
+        body.light-mode [class*="bg-green-9"] {
+            background-color: rgba(34, 197, 94, 0.10) !important;
+        }
+
+        body.light-mode [class*="bg-purple-9"] {
+            background-color: rgba(147, 51, 234, 0.10) !important;
+        }
+
+        /* Borders */
+        body.light-mode .border-luxury-800 {
+            border-color: rgba(180, 140, 80, 0.35) !important;
+        }
+
+        body.light-mode [class*="border-luxury-"] {
+            border-color: rgba(180, 140, 80, 0.25) !important;
+        }
+
+        body.light-mode [class*="divide-luxury-"]>* {
+            border-color: rgba(180, 140, 80, 0.22) !important;
+        }
+
+        body.light-mode [class*="border-blue-"] {
+            border-color: rgba(37, 99, 235, 0.28) !important;
+        }
+
+        body.light-mode [class*="border-cyan-"] {
+            border-color: rgba(14, 116, 144, 0.28) !important;
+        }
+
+        body.light-mode [class*="border-orange-"] {
+            border-color: rgba(194, 65, 12, 0.28) !important;
+        }
+
+        body.light-mode [class*="border-red-"] {
+            border-color: rgba(185, 28, 28, 0.28) !important;
+        }
+
+        /* Button text visibility in both modes */
+        body.light-mode .bg-blue-600\/80,
+        body.light-mode [class*="bg-blue-6"] {
+            color: #ffffff !important;
+        }
+
+        body.light-mode [class*="bg-orange-6"] {
+            color: #ffffff !important;
+        }
+
+        body.light-mode [class*="bg-green-6"] {
+            color: #ffffff !important;
+        }
+
+        body.light-mode [class*="bg-red-6"] {
+            color: #ffffff !important;
+        }
+
+        /* ===== INVENTORY: Force text visibility in ALL themes ===== */
+        /* Dark mode: inputs must show light text */
+        #tab-stok input[type="number"] {
+            color: var(--text-primary) !important;
+            font-weight: 900;
+        }
+
+        body:not(.light-mode) #tab-stok input[type="number"] {
+            color: #E8D8C4 !important;
+        }
+
+        /* Light mode: ALL text in tab-stok must be dark/readable */
+        body.light-mode #tab-stok input[type="number"] {
+            color: #1E1008 !important;
+            font-weight: 900 !important;
+        }
+
+        /* Direct ID overrides for inventory inputs in light mode (most reliable) */
+        body.light-mode #stok-s,
+        body.light-mode #stok-m,
+        body.light-mode #stok-l,
+        body.light-mode #reject-s,
+        body.light-mode #reject-m,
+        body.light-mode #reject-l {
+            color: #1A0E05 !important;
+        }
+
+        body.light-mode #stok-b250,
+        body.light-mode #stok-b500,
+        body.light-mode #stok-b1l {
+            color: #0c5a6b !important;
+        }
+
+        body.light-mode #reject-b250,
+        body.light-mode #reject-b500,
+        body.light-mode #reject-b1l {
+            color: #991b1b !important;
+        }
+
+        /* Panel header text (h3) - "Stok Masuk" and "Barang Rusak" */
+        body.light-mode #tab-stok h3.text-blue-400 {
+            color: #1d4ed8 !important;
+        }
+
+        body.light-mode #tab-stok h3.text-orange-400 {
+            color: #c2410c !important;
+        }
+
+        body.light-mode #tab-stok h3 {
+            color: var(--text-primary) !important;
+        }
+
+        /* Section labels (p): ☕ Cup, 🍶 Botol */
+        body.light-mode #tab-stok p {
+            color: #7A5A3A !important;
+        }
+
+        /* Size badge spans (S, M, L, 250ml, etc.) - make dark so visible on light tint bg */
+        body.light-mode #tab-stok span.text-blue-300 {
+            color: #1e40af !important;
+        }
+
+        body.light-mode #tab-stok span.text-cyan-300 {
+            color: #0c6678 !important;
+        }
+
+        body.light-mode #tab-stok span.text-orange-300 {
+            color: #9a3412 !important;
+        }
+
+        body.light-mode #tab-stok span.text-red-300 {
+            color: #991b1b !important;
+        }
+
+        body.light-mode #tab-stok span.text-blue-300\/60 {
+            color: #3b82f6 !important;
+        }
+
+        body.light-mode #tab-stok span.text-orange-300\/60 {
+            color: #f97316 !important;
+        }
+
+        /* Fix badge backgrounds to be visible but lighter */
+        body.light-mode #tab-stok .bg-blue-900\/30 {
+            background-color: rgba(37, 99, 235, 0.20) !important;
+        }
+
+        body.light-mode #tab-stok .bg-cyan-900\/20 {
+            background-color: rgba(14, 116, 144, 0.15) !important;
+        }
+
+        body.light-mode #tab-stok .bg-orange-900\/30 {
+            background-color: rgba(194, 65, 12, 0.18) !important;
+        }
+
+        body.light-mode #tab-stok .bg-red-900\/20 {
+            background-color: rgba(185, 28, 28, 0.15) !important;
+        }
+
+        body.light-mode #tab-stok .bg-luxury-900\/40 {
+            background-color: rgba(240, 232, 220, 0.8) !important;
+        }
+
+        body.light-mode #tab-stok .text-luxury-50 {
+            color: #1E1008 !important;
+        }
+
+        body.light-mode #tab-stok .text-cyan-200 {
+            color: #0c5a6b !important;
+        }
+
+        body.light-mode #tab-stok .text-red-200 {
+            color: #991b1b !important;
+        }
+
+        /* Gold text stays gold in light mode */
         .gold-text {
-            background: linear-gradient(to right, #D4AF37, #E5C665);
+            background: linear-gradient(to right, #D4AF37, #C89B20);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        body.light-mode .gold-text {
+            background: linear-gradient(to right, #7A5A1A, #5C3D0E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Light mode: POS menu card text must be dark & visible */
+        body.light-mode #view-penjual .glass-card h3,
+        body.light-mode #view-penjual .glass-card div {
+            color: #2C1A0E !important;
+        }
+
+        body.light-mode #view-penjual .glass-card {
+            background: rgba(255, 252, 245, 0.97) !important;
+            border-color: rgba(180, 130, 30, 0.35) !important;
         }
 
         .gold-btn {
@@ -110,6 +517,49 @@
         .hide-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        /* Theme toggle button */
+        #theme-toggle {
+            width: 42px;
+            height: 22px;
+            background: #2E2018;
+            border-radius: 999px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        #theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: #D4AF37;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        body.light-mode #theme-toggle {
+            background: #E8D5A0;
+        }
+
+        body.light-mode #theme-toggle::after {
+            transform: translateX(20px);
+            background: #C89B20;
+        }
+
+        /* Custom scrollbar light */
+        body.light-mode ::-webkit-scrollbar-thumb {
+            background: #C8A060;
+        }
+
+        body.light-mode ::-webkit-scrollbar-track {
+            background: #EDE5D8;
         }
 
         @media print {
@@ -156,7 +606,7 @@
 
         th,
         td {
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 1px solid var(--border-gold);
         }
     </style>
 </head>
@@ -182,20 +632,34 @@
                             d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
-                <div
-                    class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-luxury-gold to-luxury-goldDark flex items-center justify-center shadow-lg">
-                    <span class="text-espresso font-black text-xs md:text-sm">AC</span></div>
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-luxury-gold to-luxury-goldDark flex items-center justify-center shadow-lg overflow-hidden"
+                    id="header-logo-wrap">
+                    <img id="header-logo-img" src="" alt="Logo" class="w-full h-full object-cover hidden rounded-full">
+                    <span id="header-logo-text" class="text-espresso font-black text-xs md:text-sm">AC</span>
+                </div>
                 <div>
                     <h1 class="text-base md:text-xl font-bold tracking-wider leading-tight gold-text">ALL CO SHOP</h1>
                     <p class="text-[9px] md:text-xs text-luxury-300 uppercase tracking-widest">Cabang Hercules</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="text-[10px] text-luxury-400 mr-2 hidden md:inline tracking-widest uppercase">Premium
+                <span class="text-[10px] text-luxury-400 mr-1 hidden md:inline tracking-widest uppercase">Premium
                     Edition</span>
                 <span class="bg-green-500 w-2 h-2 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"
                     title="Terkoneksi"></span>
                 <span id="user-info" class="text-xs md:text-sm font-bold hidden md:block text-luxury-100"></span>
+                <!-- Theme Toggle -->
+                <div class="flex items-center gap-1.5" title="Mode Cerah / Gelap">
+                    <svg class="w-3 h-3 text-luxury-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                    </svg>
+                    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema"></button>
+                    <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
                 <button onclick="logout()"
                     class="bg-red-900/50 hover:bg-red-800 text-red-200 border border-red-500/30 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm backdrop-blur-sm transition">Keluar</button>
             </div>
@@ -378,7 +842,7 @@
                                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
                                 </path>
                             </svg>
-                            Analytics
+                            Dashboard
                         </button>
                         <button onclick="switchTab('tab-menu')" id="btn-tab-menu"
                             class="tab-btn w-full text-left px-4 py-3 rounded-xl text-sm text-luxury-300 transition font-medium hover:bg-luxury-800/50 flex items-center gap-3 border-l-3 border-transparent">
@@ -395,7 +859,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                             </svg>
-                            Inventory & Shift
+                            Inventory Cup
                         </button>
                         <button onclick="switchTab('tab-penjualan')" id="btn-tab-penjualan"
                             class="tab-btn w-full text-left px-4 py-3 rounded-xl text-sm text-luxury-300 transition font-medium hover:bg-luxury-800/50 flex items-center gap-3 border-l-3 border-transparent">
@@ -413,14 +877,25 @@
                                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
                                 </path>
                             </svg>
-                            Tim Penjual
+                            Pengaturan Akun
                         </button>
                     </div>
                     <div class="p-4 border-t border-luxury-gold/10 text-center">
                         <p class="text-[10px] text-luxury-500 uppercase tracking-widest font-bold">Upload Logo Toko</p>
-                        <button onclick="alert('Fitur Upload Logo Custom Premium akan datang di versi berikutnya!')"
-                            class="mt-2 text-xs gold-text underline decoration-luxury-gold/50 hover:decoration-luxury-gold transition">Atur
-                            Logo (Segera)</button>
+                        <input type="file" id="input-logo-file" accept="image/*" class="hidden"
+                            onchange="uploadLogo(event)">
+                        <div class="mt-2 flex flex-col items-center gap-2">
+                            <div id="logo-preview-wrap" class="hidden">
+                                <img id="logo-preview" src="" alt="Logo"
+                                    class="w-16 h-16 rounded-full object-cover border-2 border-luxury-gold/40 shadow-lg">
+                            </div>
+                            <button onclick="document.getElementById('input-logo-file').click()"
+                                class="text-xs gold-text underline decoration-luxury-gold/50 hover:decoration-luxury-gold transition">Atur
+                                Logo</button>
+                            <button id="btn-hapus-logo" onclick="hapusLogo()"
+                                class="hidden text-[10px] text-red-400 hover:text-red-300 transition">Hapus
+                                Logo</button>
+                        </div>
                         <div
                             class="mt-6 text-[9px] text-luxury-600 font-medium tracking-widest uppercase leading-relaxed">
                             &copy; 2026 Allco Shop Hercules<br>
@@ -497,6 +972,10 @@
                                 <h3 id="dash-free-omset" class="text-lg md:text-xl font-bold text-purple-400 break-all">
                                     Rp 0</h3>
                             </div>
+                        </div>
+
+                        <!-- Row 2: 3 stat cards -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div class="glass-card p-5 rounded-2xl border border-luxury-800">
                                 <p
                                     class="text-[10px] md:text-xs text-luxury-300 font-bold uppercase tracking-wider mb-2">
@@ -673,116 +1152,192 @@
                     <div id="tab-stok" class="tab-content hidden max-w-5xl mx-auto space-y-6">
                         <div
                             class="flex justify-between items-center bg-charcoal/40 p-4 rounded-2xl border border-luxury-800/50">
-                            <h2 class="text-xl md:text-2xl font-bold gold-text">Inventory & Shift Management</h2>
+                            <h2 class="text-xl md:text-2xl font-bold gold-text">Inventory &amp; Shift Management</h2>
                         </div>
 
+                        <!-- 2 Panel: Stok Masuk & Rusak -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <!-- Masuk -->
-                            <div class="glass-card p-5 md:p-6 rounded-2xl border-t-2 border-t-blue-500/70">
-                                <h3 class="font-bold mb-5 border-b border-luxury-800 pb-3 text-blue-400 tracking-wide">
-                                    Input Stok Masuk (+)</h3>
+
+                            <!-- PANEL MASUK -->
+                            <div class="glass-card p-6 rounded-2xl border-t-2 border-t-blue-500/70">
+                                <div class="flex items-center gap-2 mb-5 pb-3 border-b border-luxury-800/50">
+                                    <div class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]">
+                                    </div>
+                                    <h3 class="font-bold text-blue-400 tracking-wide text-sm">Stok Masuk <span
+                                            style="opacity:0.6;color:inherit" class="font-normal">(+)</span></h3>
+                                </div>
                                 <form onsubmit="hInputStok(event, 'tambah')">
-                                    <div class="grid grid-cols-3 gap-4 mb-6">
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                S</label><input type="number" id="stok-s" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                M</label><input type="number" id="stok-m" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                L</label><input type="number" id="stok-l" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
-
-                                        <div class="bg-blue-900/20 p-3 rounded-xl border border-blue-900/50"><label
-                                                class="block text-[10px] font-bold text-blue-300 mb-2 uppercase text-center">Btl
-                                                250ml</label><input type="number" id="stok-b250" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-blue-600/50 text-center font-bold text-lg text-blue-100 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-blue-900/20 p-3 rounded-xl border border-blue-900/50"><label
-                                                class="block text-[10px] font-bold text-blue-300 mb-2 uppercase text-center">Btl
-                                                500ml</label><input type="number" id="stok-b500" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-blue-600/50 text-center font-bold text-lg text-blue-100 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-blue-900/20 p-3 rounded-xl border border-blue-900/50"><label
-                                                class="block text-[10px] font-bold text-blue-300 mb-2 uppercase text-center">Btl
-                                                1L</label><input type="number" id="stok-b1l" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-blue-600/50 text-center font-bold text-lg text-blue-100 outline-none focus:border-blue-400 transition pb-1">
-                                        </div>
+                                    <!-- Cup Section Masuk -->
+                                    <p class="text-[10px] font-bold uppercase tracking-widest mb-3"
+                                        style="color: var(--text-muted)">☕ Cup</p>
+                                    <div class="grid grid-cols-3 gap-3 mb-5">
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #60a5fa"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-blue-900/30 border border-blue-800/50 rounded-t-lg w-full text-center py-1.5">S</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-s" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #60a5fa"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-blue-900/30 border border-blue-800/50 rounded-t-lg w-full text-center py-1.5">M</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-m" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #60a5fa"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-blue-900/30 border border-blue-800/50 rounded-t-lg w-full text-center py-1.5">L</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-l" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Botol Section Masuk -->
+                                    <p class="text-[10px] font-bold uppercase tracking-widest mb-3"
+                                        style="color: var(--text-muted)">🍶 Botol</p>
+                                    <div class="grid grid-cols-3 gap-3 mb-6">
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #22d3ee"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-cyan-900/20 border border-cyan-800/40 rounded-t-lg w-full text-center py-1.5">250ml</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-b250" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #22d3ee"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-cyan-900/20 border border-cyan-800/40 rounded-t-lg w-full text-center py-1.5">500ml</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-b500" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #22d3ee"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-cyan-900/20 border border-cyan-800/40 rounded-t-lg w-full text-center py-1.5">1
+                                                Liter</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="stok-b1l" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
                                     </div>
                                     <button type="submit"
-                                        class="w-full bg-blue-600/80 hover:bg-blue-500 text-white py-3.5 rounded-xl font-bold shadow-[0_0_15px_rgba(37,99,235,0.3)] transition border border-blue-400/30">Simpan
-                                        Penambahan</button>
+                                        class="w-full bg-blue-600/80 hover:bg-blue-500 text-white py-3.5 rounded-xl font-bold shadow-[0_0_15px_rgba(37,99,235,0.3)] transition border border-blue-400/30 flex items-center justify-center gap-2">
+                                        <span class="text-base">+</span> Simpan Penambahan
+                                    </button>
                                 </form>
                             </div>
 
-                            <!-- Keluar/Rusak -->
-                            <div class="glass-card p-5 md:p-6 rounded-2xl border-t-2 border-t-orange-500/70">
-                                <h3
-                                    class="font-bold mb-5 border-b border-luxury-800 pb-3 text-orange-400 tracking-wide">
-                                    Input Barang Rusak / Reject (-)</h3>
+                            <!-- PANEL RUSAK/REJECT -->
+                            <div class="glass-card p-6 rounded-2xl border-t-2 border-t-orange-500/70">
+                                <div class="flex items-center gap-2 mb-5 pb-3 border-b border-luxury-800/50">
+                                    <div
+                                        class="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]">
+                                    </div>
+                                    <h3 class="font-bold text-orange-400 tracking-wide text-sm">Barang Rusak / Reject
+                                        <span class="text-orange-300/60 font-normal">(-)</span>
+                                    </h3>
+                                </div>
                                 <form onsubmit="hInputStok(event, 'reject')">
-                                    <div class="grid grid-cols-3 gap-4 mb-6">
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                S</label><input type="number" id="reject-s" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                M</label><input type="number" id="reject-m" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-luxury-900/50 p-3 rounded-xl border border-luxury-800"><label
-                                                class="block text-[10px] font-bold text-luxury-300 mb-2 uppercase text-center">Cup
-                                                L</label><input type="number" id="reject-l" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-luxury-600 text-center font-bold text-lg text-luxury-50 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
-
-                                        <div class="bg-orange-900/20 p-3 rounded-xl border border-orange-900/50"><label
-                                                class="block text-[10px] font-bold text-orange-300 mb-2 uppercase text-center">Btl
-                                                250ml</label><input type="number" id="reject-b250" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-orange-600/50 text-center font-bold text-lg text-orange-100 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-orange-900/20 p-3 rounded-xl border border-orange-900/50"><label
-                                                class="block text-[10px] font-bold text-orange-300 mb-2 uppercase text-center">Btl
-                                                500ml</label><input type="number" id="reject-b500" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-orange-600/50 text-center font-bold text-lg text-orange-100 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
-                                        <div class="bg-orange-900/20 p-3 rounded-xl border border-orange-900/50"><label
-                                                class="block text-[10px] font-bold text-orange-300 mb-2 uppercase text-center">Btl
-                                                1L</label><input type="number" id="reject-b1l" min="0" value="0"
-                                                class="w-full bg-transparent border-b border-orange-600/50 text-center font-bold text-lg text-orange-100 outline-none focus:border-orange-400 transition pb-1">
-                                        </div>
+                                    <!-- Cup Section Reject -->
+                                    <p class="text-[10px] font-bold uppercase tracking-widest mb-3"
+                                        style="color: var(--text-muted)">☕ Cup</p>
+                                    <div class="grid grid-cols-3 gap-3 mb-5">
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #fb923c"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-orange-900/30 border border-orange-800/50 rounded-t-lg w-full text-center py-1.5">S</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-s" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #fb923c"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-orange-900/30 border border-orange-800/50 rounded-t-lg w-full text-center py-1.5">M</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-m" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #fb923c"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-orange-900/30 border border-orange-800/50 rounded-t-lg w-full text-center py-1.5">L</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-l" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- Botol Section Reject -->
+                                    <p class="text-[10px] font-bold uppercase tracking-widest mb-3"
+                                        style="color: var(--text-muted)">🍶 Botol</p>
+                                    <div class="grid grid-cols-3 gap-3 mb-6">
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #f87171"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-red-900/20 border border-red-800/40 rounded-t-lg w-full text-center py-1.5">250ml</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-b250" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #f87171"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-red-900/20 border border-red-800/40 rounded-t-lg w-full text-center py-1.5">500ml</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-b500" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <span style="color: #f87171"
+                                                class="text-[10px] font-bold uppercase tracking-widest bg-red-900/20 border border-red-800/40 rounded-t-lg w-full text-center py-1.5">1
+                                                Liter</span>
+                                            <div
+                                                class="w-full bg-luxury-900/40 border border-luxury-700/50 border-t-0 rounded-b-lg px-2 py-2 flex items-center justify-center">
+                                                <input type="number" id="reject-b1l" min="0" value="0"
+                                                    style="color: var(--text-primary)"
+                                                    class="w-full bg-transparent text-center font-black text-2xl outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
+                                            </div>
+                                        </label>
                                     </div>
                                     <button type="submit"
-                                        class="w-full bg-orange-600/80 hover:bg-orange-500 text-white py-3.5 rounded-xl font-bold shadow-[0_0_15px_rgba(234,88,12,0.3)] transition border border-orange-400/30">Catat
-                                        Pengurangan</button>
+                                        class="w-full bg-orange-600/80 hover:bg-orange-500 text-white py-3.5 rounded-xl font-bold shadow-[0_0_15px_rgba(234,88,12,0.3)] transition border border-orange-400/30 flex items-center justify-center gap-2">
+                                        <span class="text-base">−</span> Catat Pengurangan
+                                    </button>
                                 </form>
                             </div>
-                        </div>
 
-                        <div
-                            class="glass-card border-t-2 border-t-luxury-gold p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-                            <div
-                                class="absolute right-0 top-0 w-32 h-32 bg-luxury-gold/10 rounded-full blur-[40px] pointer-events-none">
-                            </div>
-                            <div class="relative z-10">
-                                <h3 class="font-bold gold-text text-xl md:text-2xl mb-2 tracking-wide">Tutup Shift &
-                                    Sinkronisasi Data</h3>
-                                <p class="text-sm text-luxury-300">Menyimpan rekapitulasi harian secara permanen ke
-                                    server. Lakukan ini 1x di akhir operasional toko.</p>
-                            </div>
-                            <button onclick="tutupBuku()"
-                                class="w-full md:w-auto gold-btn py-4 px-8 rounded-xl text-sm shadow-[0_0_20px_rgba(212,175,55,0.3)] relative z-10">LAKUKAN
-                                TUTUP BUKU</button>
                         </div>
                     </div>
+
+
 
                     <!-- Tab Penjualan -->
                     <div id="tab-penjualan" class="tab-content hidden space-y-6">
@@ -855,7 +1410,7 @@
                                             <th class="p-4 rounded-tl-xl">ID Trx</th>
                                             <th class="p-4">Waktu</th>
                                             <th class="p-4">Penjual</th>
-                                            <th class="p-4 w-1/3">Item Detail</th>
+                                            <th class="p-4 w-1/3 text-center">Item Detail</th>
                                             <th class="p-4 text-right">Total (Rp)</th>
                                             <th class="p-4 text-center rounded-tr-xl">Manajemen</th>
                                         </tr>
@@ -911,14 +1466,14 @@
                         <div
                             class="flex gap-2 overflow-x-auto w-full sm:w-auto pb-1 hide-scrollbar bg-charcoal/50 p-1.5 rounded-2xl border border-luxury-800">
                             <button onclick="setPosTab('KOPI')" id="btn-pos-KOPI"
-                                class="pos-tab-btn gold-btn px-5 py-2 rounded-xl text-[11px] md:text-xs whitespace-nowrap shadow-sm">Coffee</button>
+                                class="pos-tab-btn gold-btn px-5 py-2 rounded-xl text-[11px] md:text-xs whitespace-nowrap shadow-sm">Kopi</button>
                             <button onclick="setPosTab('NON_KOPI')" id="btn-pos-NON_KOPI"
                                 class="pos-tab-btn px-5 py-2 bg-transparent text-luxury-200 hover:text-luxury-50 rounded-xl font-bold text-[11px] md:text-xs whitespace-nowrap transition">Non
-                                Coffee</button>
+                                Kopi</button>
                             <button onclick="setPosTab('SIRUP')" id="btn-pos-SIRUP"
-                                class="pos-tab-btn px-5 py-2 bg-transparent text-luxury-200 hover:text-luxury-50 rounded-xl font-bold text-[11px] md:text-xs whitespace-nowrap transition">Toppings</button>
+                                class="pos-tab-btn px-5 py-2 bg-transparent text-luxury-200 hover:text-luxury-50 rounded-xl font-bold text-[11px] md:text-xs whitespace-nowrap transition">Sirup</button>
                             <button onclick="setPosTab('BOTOLAN')" id="btn-pos-BOTOLAN"
-                                class="pos-tab-btn px-5 py-2 bg-transparent text-luxury-200 hover:text-luxury-50 rounded-xl font-bold text-[11px] md:text-xs whitespace-nowrap transition">Bottled</button>
+                                class="pos-tab-btn px-5 py-2 bg-transparent text-luxury-200 hover:text-luxury-50 rounded-xl font-bold text-[11px] md:text-xs whitespace-nowrap transition">Botolan</button>
                         </div>
                     </div>
 
@@ -941,14 +1496,13 @@
                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
                                 </path>
                             </svg>
-                            <h2 class="font-bold text-sm md:text-base text-luxury-50 tracking-wide">Current Order</h2>
+                            <h2 class="font-bold text-sm md:text-base text-luxury-50 tracking-wide">Pesanan Baru</h2>
                         </div>
                         <div class="flex gap-2" id="pos-btn-group">
                             <button onclick="bukaRiwayatKasir()" id="btn-riwayat-pos"
                                 class="text-[10px] md:text-xs bg-luxury-800 hover:bg-luxury-700 text-luxury-100 border border-luxury-600 px-3 py-1.5 rounded-lg shadow-sm transition">Riwayat</button>
                             <button onclick="clrCart()"
-                                class="text-[10px] md:text-xs bg-red-900/50 hover:bg-red-800 text-red-200 border border-red-500/30 px-3 py-1.5 rounded-lg shadow-sm transition">Clear
-                                All</button>
+                                class="text-[10px] md:text-xs bg-red-900/50 hover:bg-red-800 text-red-200 border border-red-500/30 px-3 py-1.5 rounded-lg shadow-sm transition">Bersihkan</button>
                         </div>
                     </div>
 
@@ -974,13 +1528,15 @@
                                     class="flex items-center justify-center px-3 py-1.5 rounded-md cursor-pointer transition has-[:checked]:bg-luxury-700 has-[:checked]:shadow-sm">
                                     <input type="radio" name="metode-bayar" value="CASH" checked class="hidden"
                                         onchange="tgMet()">
-                                    <span class="text-[10px] font-bold text-luxury-100 tracking-wide">CASH</span>
+                                    <span style="color: var(--text-primary)"
+                                        class="text-[10px] font-bold tracking-wide">CASH</span>
                                 </label>
                                 <label
                                     class="flex items-center justify-center px-3 py-1.5 rounded-md cursor-pointer transition has-[:checked]:bg-blue-900/50 has-[:checked]:border has-[:checked]:border-blue-500/30">
                                     <input type="radio" name="metode-bayar" value="QRIS" class="hidden"
                                         onchange="tgMet()">
-                                    <span class="text-[10px] font-bold text-blue-200 tracking-wide">QRIS Digital</span>
+                                    <span style="color: var(--text-primary)"
+                                        class="text-[10px] font-bold tracking-wide">QRIS Digital</span>
                                 </label>
                             </div>
                         </div>
@@ -1015,7 +1571,7 @@
 
                         <div class="flex gap-3" id="area-tombol-pos">
                             <button id="btn-req-free-pos" onclick="oMod('modal-req-free')"
-                                class="w-[30%] bg-orange-900/60 hover:bg-orange-800 text-orange-200 border border-orange-500/30 font-bold py-3 md:py-4 rounded-xl text-[10px] md:text-xs tracking-wider uppercase hidden transition shadow-lg">Req
+                                class="w-[30%] bg-orange-900/60 hover:bg-orange-800 text-orange-200 border border-orange-500/30 font-bold py-3 md:py-4 rounded-xl text-[10px] md:text-xs tracking-wider uppercase hidden transition shadow-lg flex items-center justify-center">Req
                                 Free</button>
                             <button id="btn-simpan-pos" onclick="doPay()"
                                 class="w-full gold-btn font-bold py-3 md:py-4 rounded-xl text-sm tracking-widest uppercase shadow-[0_5px_20px_rgba(212,175,55,0.25)]">Proses
@@ -1031,7 +1587,7 @@
 
     <div id="modal-req-free"
         class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 opacity-0 transition-opacity duration-300"
-        style="display:none;" ontransitionend="if(this.classList.contains('hidden')) this.style.display='none';">
+        ontransitionend="if(this.classList.contains('hidden')) this.style.display='none';">
         <div
             class="glass-card rounded-3xl p-6 w-full max-w-sm m-auto shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-orange-500/20 transform scale-95 transition-transform duration-300">
             <h3 class="text-lg font-bold mb-4 text-orange-400 flex items-center gap-2"><svg class="w-5 h-5" fill="none"
@@ -1240,7 +1796,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, setDoc, getDocs, getDoc, onSnapshot, deleteDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, setDoc, getDocs, getDoc, onSnapshot, deleteDoc, query, where, writeBatch, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const app = initializeApp({
             apiKey: "AIzaSyBChJ2DQIvq_LD0oIjGrzHOTHvRDpw6m34",
@@ -1519,8 +2075,8 @@
         async function toggleReqFree(u) { let usr = st.users.find(x => x.username === u); if (!usr) return; usr.canReqFree = !usr.canReqFree; await setDoc(doc(db, getP('users'), u), usr); if (st.currentUser?.role === 'superadmin') renUSA(); else renUPem(); }
         function bukaModalEditPass(u) { let t = u || st.currentUser.username; el('edit-pass-username').value = t; el('ubah-pass-target').textContent = t === st.currentUser.username ? "(Saya)" : `(${t})`; oMod('modal-ubah-password'); }
         async function hUbahPass(e) { e.preventDefault(); let p = el('update-password').value, t = el('edit-pass-username').value, usr = st.users.find(u => u.username === t); if (!usr) return; usr.password = p; if (t === st.currentUser.username) { st.currentUser.password = p; localStorage.setItem('allco_p', p); } await setDoc(doc(db, getP('users'), t), usr); alert('Password berhasil diubah!'); cMod('modal-ubah-password'); }
-        function renUSA() { let tb = el('table-users-sa'); tb.innerHTML = ''; st.users.forEach(u => { let bd = u.role === 'penjual' ? (u.canReqFree ? ' <span class="bg-orange-900/20 text-[10px] p-1">Free:Y</span>' : ' <span class="bg-luxury-800 text-[10px] p-1">Free:N</span>') : ''; let btn = u.role === 'penjual' ? (u.canReqFree ? `<button onclick="toggleReqFree('${u.username}')" class="text-orange-500 mr-2">NoFree</button>` : `<button onclick="toggleReqFree('${u.username}')" class="text-green-400 mr-2">YesFree</button>`) : ''; tb.innerHTML += `<tr class="border-b border-luxury-800/50"><td class="p-2">${u.username}${bd}</td><td class="p-2">${u.role}</td><td class="p-2 text-center">${btn}<button onclick="bukaModalEditPass('${u.username}')" class="text-blue-600 mr-2">Pass</button>${u.username !== st.currentUser.username ? `<button onclick="hapusUser('${u.username}')" class="text-red-400">Del</button>` : '-'}</td></tr>`; }); }
-        function renUPem() { let tb = el('table-users-owner'); tb.innerHTML = ''; st.users.filter(u => u.role === 'penjual').forEach(u => { let bd = u.canReqFree ? ' <span class="bg-orange-900/20 text-[10px] p-1">Free:Y</span>' : ' <span class="bg-luxury-800 text-[10px] p-1">Free:N</span>'; let btn = u.canReqFree ? `<button onclick="toggleReqFree('${u.username}')" class="text-orange-500 mr-2">NoFree</button>` : `<button onclick="toggleReqFree('${u.username}')" class="text-green-400 mr-2">YesFree</button>`; tb.innerHTML += `<tr class="border-b border-luxury-800/50"><td class="p-2">${u.username}${bd}</td><td class="p-2">${u.role}</td><td class="p-2 text-center">${btn}<button onclick="bukaModalEditPass('${u.username}')" class="text-blue-600 mr-2">Pass</button><button onclick="hapusUser('${u.username}')" class="text-red-400">Del</button></td></tr>`; }); }
+        function renUSA() { let tb = el('table-users-sa'); tb.innerHTML = ''; st.users.forEach(u => { let bd = u.role === 'penjual' ? (u.canReqFree ? ' <span class="bg-orange-900/40 text-orange-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold">Free:Y</span>' : ' <span class="bg-luxury-800 text-luxury-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold">Free:N</span>') : ''; let btn = u.role === 'penjual' ? (u.canReqFree ? `<button onclick="toggleReqFree('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-orange-900/40 text-orange-300 hover:bg-orange-800/60 border border-orange-700/50 mr-1 transition">No Free</button>` : `<button onclick="toggleReqFree('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-900/40 text-green-300 hover:bg-green-800/60 border border-green-700/50 mr-1 transition">Yes Free</button>`) : ''; tb.innerHTML += `<tr class="border-b border-luxury-800/50 hover:bg-luxury-900/30 transition"><td class="p-3">${u.username}${bd}</td><td class="p-3">${u.role}</td><td class="p-3 text-center"><div class="flex gap-1 justify-center flex-wrap">${btn}<button onclick="bukaModalEditPass('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-900/40 text-blue-300 hover:bg-blue-800/60 border border-blue-700/50 transition">Pass</button>${u.username !== st.currentUser.username ? `<button onclick="hapusUser('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-red-900/40 text-red-300 hover:bg-red-800/60 border border-red-700/50 transition">Del</button>` : ''}</div></td></tr>`; }); }
+        function renUPem() { let tb = el('table-users-owner'); tb.innerHTML = ''; let penjual = st.users.filter(u => u.role === 'penjual'); if (!penjual.length) { tb.innerHTML = '<tr><td colspan="3" class="p-6 text-center text-luxury-300 text-sm">Belum ada Tim Penjual terdaftar.<br><span class="text-[10px] text-luxury-500">Klik "+ Tambah Kasir" untuk menambahkan.</span></td></tr>'; return; } penjual.forEach(u => { let bd = u.canReqFree ? ' <span class="bg-orange-900/40 text-orange-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold">Free:Y</span>' : ' <span class="bg-luxury-800 text-luxury-300 text-[9px] px-1.5 py-0.5 rounded-full font-bold">Free:N</span>'; let btn = u.canReqFree ? `<button onclick="toggleReqFree('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-orange-900/40 text-orange-300 hover:bg-orange-800/60 border border-orange-700/50 mr-1 transition">No Free</button>` : `<button onclick="toggleReqFree('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-900/40 text-green-300 hover:bg-green-800/60 border border-green-700/50 mr-1 transition">Yes Free</button>`; tb.innerHTML += `<tr class="border-b border-luxury-800/50 hover:bg-luxury-900/30 transition"><td class="p-3">${u.username}${bd}</td><td class="p-3">${u.role}</td><td class="p-3 text-center"><div class="flex gap-1 justify-center flex-wrap">${btn}<button onclick="bukaModalEditPass('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-900/40 text-blue-300 hover:bg-blue-800/60 border border-blue-700/50 transition">Pass</button><button onclick="hapusUser('${u.username}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-red-900/40 text-red-300 hover:bg-red-800/60 border border-red-700/50 transition">Del</button></div></td></tr>`; }); }
 
         function toggleSidebar() {
             const sb = el('pemilik-sidebar');
@@ -1538,22 +2094,19 @@
                 toggleSidebar();
             }
         }
-        // Override switchTab to also close sidebar on mobile
-        const origSwitchTab = switchTab;
-        switchTab = function (id) {
-            origSwitchTab(id);
-            closeSidebarMobile();
-        };
         window.toggleSidebar = toggleSidebar;
 
         function switchTab(id) {
             if (id === 'tab-stok' && st.appConfig?.package === 'basic') { alert('Fitur Stok hanya di Pro.'); return; }
             document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(e => { e.classList.remove('border-coffee-600', 'text-luxury-gold', 'font-bold', 'border-b border-luxury-800/50-2'); e.classList.add('text-luxury-200'); });
+            document.querySelectorAll('.tab-btn').forEach(e => { e.classList.remove('tab-active'); e.classList.add('text-luxury-300'); });
             el(id).classList.remove('hidden');
             let b = el('btn-' + id);
-            if (b) { b.classList.remove('text-luxury-200'); b.classList.add('border-coffee-600', 'text-luxury-gold', 'font-bold', 'border-b border-luxury-800/50-2'); }
+            if (b) { b.classList.remove('text-luxury-300'); b.classList.add('tab-active'); }
             if (id === 'tab-dashboard') renDash();
+            if (id === 'tab-penjualan') renJual();
+            if (id === 'tab-akun') renUPem();
+            closeSidebarMobile();
         }
         function renPemilik() { renDash(); renMenuP(); renJual(); renUPem();['s', 'm', 'l', 'b250', 'b500', 'b1l'].forEach(x => { let e1 = el(`stok-${x}`); if (e1) e1.value = 0; let e2 = el(`reject-${x}`); if (e2) e2.value = 0; }); applyPackageUI(); }
 
@@ -1597,15 +2150,7 @@
             }
             await setDoc(doc(db, getP('stok'), nd.tgl), nd);
         }
-        async function tutupBuku() {
-            if (st.appConfig?.package === 'basic') { alert('Fitur Tutup Buku hanya di Pro.'); return; }
-            if (!confirm('Tutup Buku hari ini?')) return;
-            try {
-                const b = writeBatch(db);
-                b.set(doc(db, getP('laporan_rekap_harian'), getTgl()), { tgl: getTgl(), tot_omset: parseInt(el('dash-omset').textContent.replace(/[^0-9]/g, '')) || 0, tot_trx: parseInt(el('dash-trx').textContent) || 0, waktu: new Date().toISOString() }, { merge: true });
-                await b.commit(); alert('OK!');
-            } catch (e) { alert(e.message); }
-        }
+
         const tglKtg = () => { let v = el('menu-kategori').value; el('area-harga-minuman').style.display = (v === 'KOPI' || v === 'NON_KOPI') ? 'grid' : 'none'; el('area-harga-botolan').style.display = v === 'BOTOLAN' ? 'grid' : 'none'; el('area-harga-sirup').style.display = v === 'SIRUP' ? 'block' : 'none'; };
         function setMenuTab(t) { currentMgmtTab = t; document.querySelectorAll('.mg-tab-btn').forEach(b => { b.classList.remove('gold-btn', 'text-white'); b.classList.add('glass-card', 'text-luxury-50'); }); let a = el('btn-mg-' + t); if (a) { a.classList.remove('glass-card', 'text-luxury-50'); a.classList.add('gold-btn', 'text-white'); } renMenuP(); }
         function renMenuP() {
@@ -1619,8 +2164,11 @@
             if (!f.length) return tb.innerHTML = `<tr><td colspan="5" class="p-4 text-center">Kosong</td></tr>`;
             f.forEach(m => {
                 let n = gNm(m.nama), p = m.prices;
-                if (currentMgmtTab === 'BOTOLAN') tb.innerHTML += `<tr><td class="p-2">${n}</td><td class="p-2 text-center">${p['250ml'] ? fRp(p['250ml']) : '-'}</td><td class="p-2 text-center">${p['500ml'] ? fRp(p['500ml']) : '-'}</td><td class="p-2 text-center">${p['1L'] ? fRp(p['1L']) : '-'}</td><td class="p-2 text-center"><button onclick="edMenu('${m.id}')" class="text-blue-600 mr-2">Ed</button><button onclick="hapMenu('${m.id}')" class="text-red-400">Del</button></td></tr>`;
-                else tb.innerHTML += `<tr><td class="p-2">${n}</td><td class="p-2 text-center">${p.S ? fRp(p.S) : '-'}</td><td class="p-2 text-center">${p.M ? fRp(p.M) : '-'}</td><td class="p-2 text-center">${p.L ? fRp(p.L) : '-'}</td><td class="p-2 text-center"><button onclick="edMenu('${m.id}')" class="text-blue-600 mr-2">Ed</button><button onclick="hapMenu('${m.id}')" class="text-red-400">Del</button></td></tr>`;
+                const btnEd = `<button onclick="edMenu('${m.id}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-900/40 text-blue-300 hover:bg-blue-800/60 border border-blue-700/50 transition">Edit</button>`;
+                const btnDel = `<button onclick="hapMenu('${m.id}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-red-900/40 text-red-300 hover:bg-red-800/60 border border-red-700/50 transition">Del</button>`;
+                const aksiCell = `<td class="p-3 text-center"><div class="flex gap-1 justify-center">${btnEd}${btnDel}</div></td>`;
+                if (currentMgmtTab === 'BOTOLAN') tb.innerHTML += `<tr class="border-b border-luxury-800/50 hover:bg-luxury-900/30 transition"><td class="p-3">${n}</td><td class="p-3 text-center">${p['250ml'] ? fRp(p['250ml']) : '-'}</td><td class="p-3 text-center">${p['500ml'] ? fRp(p['500ml']) : '-'}</td><td class="p-3 text-center">${p['1L'] ? fRp(p['1L']) : '-'}</td>${aksiCell}</tr>`;
+                else tb.innerHTML += `<tr class="border-b border-luxury-800/50 hover:bg-luxury-900/30 transition"><td class="p-3">${n}</td><td class="p-3 text-center">${p.S ? fRp(p.S) : '-'}</td><td class="p-3 text-center">${p.M ? fRp(p.M) : '-'}</td><td class="p-3 text-center">${p.L ? fRp(p.L) : '-'}</td>${aksiCell}</tr>`;
             });
         }
         async function hSimpanMenu(e) {
@@ -1655,7 +2203,9 @@
         function batEdMenu() { el('form-tambah-menu-inline').reset(); el('menu-id').value = ''; el('menu-kategori').value = 'KOPI'; tglKtg(); el('form-menu-title').textContent = 'Tambah Menu'; el('btn-cancel-edit-menu').classList.add('hidden'); }
         async function hapMenu(id) { if (confirm('Hapus?')) { if (el('menu-id').value === id) batEdMenu(); await deleteDoc(doc(db, getP('menu'), id)); } }
         function renJual() {
-            let tb = el('table-penjualan-pemilik'), fd = el('filter-date').value, fm = el('filter-metode').value;
+            let tb = el('table-penjualan-pemilik'), fd = el('filter-date').value || getTgl(), fm = el('filter-metode').value;
+            // Ensure filter-date always shows a value
+            if (!el('filter-date').value) el('filter-date').value = getTgl();
             let dt = st.penjualan.filter(p => chkDate(p.tgl, fd));
             let pA = dt.filter(p => p.isFree && p.freeStatus === 'pending'), nA = dt.filter(p => !(p.isFree && p.freeStatus === 'pending'));
             tb.innerHTML = ''; const isBasic = st.appConfig?.package === 'basic';
@@ -1665,10 +2215,30 @@
             if (el('sum-qris')) el('sum-qris').textContent = fRp(sQ);
             let dF = nA.filter(p => { if (p.isFree) return !isBasic && fm === 'ALL'; let iQ = p.kasir?.includes('(QRIS)'); return fm === 'ALL' || (fm === 'QRIS' && iQ) || (fm === 'CASH' && !iQ); }).sort((a, b) => (b.tgl + ' ' + b.waktu).localeCompare(a.tgl + ' ' + a.waktu));
             if (!dF.length) return tb.innerHTML = `<tr><td colspan="6" class="p-4 text-center">Kosong.</td></tr>`;
-            dF.forEach(x => { let rn = x.items.map(i => `${i.qty}x ${i.nama}${i.ukuran !== '-' ? ` (${i.ukuran})` : ''}`).join(', '), rB = x.isFree ? (x.freeStatus === 'approved' ? 'bg-green-900/20' : 'bg-red-900/20') : '', tT = x.isFree ? (x.freeStatus === 'approved' ? '<span class="text-green-400">FREE</span>' : '<span class="text-red-400">DITOLAK</span>') : fRp(x.total); let aksiHtml = `<button onclick="prt('${x.id}')" class="text-green-400 mr-2">Cetak</button>`; if (!isBasic) aksiHtml += `<button onclick="oEdTrx('${x.id}')" class="text-blue-600">Edit</button>`; tb.innerHTML += `<tr class="border-b border-luxury-800/50 ${rB}"><td class="p-2 text-xs">${x.id}</td><td class="p-2">${x.waktu}</td><td class="p-2">${x.kasir}</td><td class="p-2">${rn}</td><td class="p-2 font-bold">${tT}</td><td class="p-2 text-center">${aksiHtml}</td></tr>`; });
+            dF.forEach(x => { let rn = x.items.map(i => `${i.qty}x ${i.nama}${i.ukuran !== '-' ? ` (${i.ukuran})` : ''}`).join(', '), rB = x.isFree ? (x.freeStatus === 'approved' ? 'bg-green-900/20' : 'bg-red-900/20') : '', tT = x.isFree ? (x.freeStatus === 'approved' ? '<span class="text-green-400 font-bold">FREE</span>' : '<span class="text-red-400 font-bold">DITOLAK</span>') : fRp(x.total); let aksiHtml = `<button onclick="prt('${x.id}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-900/40 text-green-300 hover:bg-green-800/60 border border-green-700/50 transition">Cetak</button>`; if (!isBasic) aksiHtml += ` <button onclick="oEdTrx('${x.id}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-900/40 text-blue-300 hover:bg-blue-800/60 border border-blue-700/50 transition">Edit</button>`; tb.innerHTML += `<tr class="border-b border-luxury-800/50 hover:bg-luxury-900/30 transition ${rB}"><td class="p-3 text-xs font-mono text-luxury-400">${x.id}</td><td class="p-3 text-sm">${x.waktu}</td><td class="p-3 text-sm">${x.kasir}</td><td class="p-3 text-sm">${rn}</td><td class="p-3 font-bold text-right">${tT}</td><td class="p-3 text-center"><div class="flex gap-1 justify-center">${aksiHtml}</div></td></tr>`; });
         }
-        async function approveFree(id) { if (confirm('Approve?')) { let t = st.penjualan.find(p => p.id === id); if (t) { t.freeStatus = 'approved'; await setDoc(doc(db, getP('penjualan'), t.id), t); renDash(); renJual(); } } }
-        async function rejectFree(id) { if (confirm('Tolak?')) { let t = st.penjualan.find(p => p.id === id); if (t) { t.freeStatus = 'rejected'; await setDoc(doc(db, getP('penjualan'), t.id), t); renDash(); renJual(); } } }
+        async function approveFree(id) {
+            if (!confirm('Approve free order ini?')) return;
+            let t = st.penjualan.find(p => p.id === id);
+            if (!t) { alert('Data tidak ditemukan!'); return; }
+            // Optimistic update: update local state & UI immediately
+            t.freeStatus = 'approved';
+            renDash(); renJual();
+            // Write to Firestore in background
+            setDoc(doc(db, getP('penjualan'), t.id), t)
+                .catch(e => { alert('Gagal sync ke server: ' + e.message); t.freeStatus = 'pending'; renJual(); });
+        }
+        async function rejectFree(id) {
+            if (!confirm('Tolak free order ini?')) return;
+            let t = st.penjualan.find(p => p.id === id);
+            if (!t) { alert('Data tidak ditemukan!'); return; }
+            // Optimistic update: update local state & UI immediately
+            t.freeStatus = 'rejected';
+            renDash(); renJual();
+            // Write to Firestore in background
+            setDoc(doc(db, getP('penjualan'), t.id), t)
+                .catch(e => { alert('Gagal sync ke server: ' + e.message); t.freeStatus = 'pending'; renJual(); });
+        }
         function downloadCSV() {
             if (st.appConfig?.package === 'basic') { alert('Fitur Export hanya di Pro.'); return; }
             let fd = el('filter-date').value, dt = st.penjualan.filter(p => chkDate(p.tgl, fd)).sort((a, b) => (b.tgl + ' ' + b.waktu).localeCompare(a.tgl + ' ' + a.waktu));
@@ -1737,14 +2307,20 @@
             let t = cart.reduce((s, i) => s + i.subtotal, 0), mb = document.querySelector('input[name="metode-bayar"]:checked').value, uC = 0, k = 0;
             if (mb === 'CASH') { uC = parseInt(el('input-uang-cash').value) || 0; if (uC < t) return alert('Uang kurang!'); k = uC - t; }
             let tx = { id: 'TRX-' + Date.now().toString().slice(-6), tgl: getTgl(), waktu: new Date().toLocaleTimeString('id-ID'), kasir: `${st.currentUser.username} (${mb})`, items: [...cart], total: t, uangCash: uC, kembalian: k };
-            await setDoc(doc(db, getP('penjualan'), tx.id), tx);
+            const b = writeBatch(db);
+            b.set(doc(db, getP('penjualan'), tx.id), tx);
+            b.set(doc(db, getP('laporan_rekap_harian'), getTgl()), { tgl: getTgl(), tot_omset: increment(t), tot_trx: increment(1), waktu: new Date().toISOString() }, { merge: true });
+            await b.commit();
             cart = []; el('input-uang-cash').value = ''; tgMet(); renCart(); alert('OK Disimpan!');
         }
         async function submitFreeOrder() {
             if (st.appConfig?.package === 'basic') { alert('Fitur Free Order hanya di Pro.'); return; }
             if (!cart.length) return;
             let tx = { id: 'FR-' + Date.now().toString().slice(-6), tgl: getTgl(), waktu: new Date().toLocaleTimeString('id-ID'), kasir: `${st.currentUser.username} (FREE)`, items: [...cart], total: cart.reduce((s, i) => s + i.subtotal, 0), uangCash: 0, kembalian: 0, isFree: true, freeStatus: 'pending', alasan: el('free-alasan').value || '-' };
-            await setDoc(doc(db, getP('penjualan'), tx.id), tx);
+            const b = writeBatch(db);
+            b.set(doc(db, getP('penjualan'), tx.id), tx);
+            b.set(doc(db, getP('laporan_rekap_harian'), getTgl()), { tgl: getTgl(), tot_trx: increment(1), waktu: new Date().toISOString() }, { merge: true });
+            await b.commit();
             cart = []; el('free-alasan').value = ''; renCart(); cMod('modal-req-free'); alert('Request Free Order terkirim!');
         }
         function bukaRiwayatKasir() {
@@ -1815,13 +2391,67 @@
             unsubs.push(onSnapshot(doc(db, getP('config'), 'app_settings'), (snap) => { if (snap.exists()) { st.appConfig = snap.data(); if (!st.appConfig.package) st.appConfig.package = 'pro'; if (!st.appConfig.licenseType) { st.appConfig.licenseType = 'lifetime'; st.appConfig.expiryDate = null; } } else { st.appConfig = { package: 'pro', licenseType: 'lifetime', licenseDuration: 0, expiryDate: null }; } applyPackageUI(); }));
         }
         const showV = v => { ['view-login', 'view-superadmin', 'view-pemilik', 'view-penjual'].forEach(i => el(i).classList.add('hidden')); el('main-header').classList.toggle('hidden', v === 'view-login'); el(v).classList.remove('hidden'); };
-        const oMod = (m, c = '') => { el(m).classList.replace('hidden', 'flex'); if (m === 'modal-tambah-akun') { el('akun-context').value = c; el('opt-pemilik').style.display = c === 'pemilik' ? 'none' : 'block'; if (c === 'pemilik') el('new-role').value = 'penjual'; el('area-akses-free').style.display = el('new-role').value === 'penjual' ? 'block' : 'none'; } };
-        const cMod = m => el(m).classList.replace('flex', 'hidden');
+        const oMod = (m, c = '') => { let e = el(m); e.style.display = ''; e.classList.remove('hidden'); e.classList.add('flex'); requestAnimationFrame(() => { e.classList.remove('opacity-0'); e.classList.add('opacity-100'); }); if (m === 'modal-tambah-akun') { el('akun-context').value = c; el('opt-pemilik').style.display = c === 'pemilik' ? 'none' : 'block'; if (c === 'pemilik') el('new-role').value = 'penjual'; el('area-akses-free').style.display = el('new-role').value === 'penjual' ? 'block' : 'none'; } };
+        const cMod = m => { let e = el(m); e.classList.remove('opacity-100'); e.classList.add('opacity-0'); setTimeout(() => { e.classList.remove('flex'); e.classList.add('hidden'); e.style.display = 'none'; }, 300); };
         function onDateFilterChange() { if (st.currentUser?.role !== 'pemilik') return; renDash(); renJual(); }
         async function setPackage(pkg) { if (!confirm(`Ubah paket ke ${pkg.toUpperCase()}?`)) return; try { await setDoc(doc(db, getP('config'), 'app_settings'), { package: pkg, licenseType: st.appConfig.licenseType || 'lifetime', licenseDuration: st.appConfig.licenseDuration || 0, expiryDate: st.appConfig.expiryDate }, { merge: true }); st.appConfig.package = pkg; applyPackageUI(); alert(`Paket ${pkg.toUpperCase()} disimpan.`); } catch (e) { alert('Gagal: ' + e.message); } }
 
-        Object.assign(window, { logout, oMod, cMod, handleLogin, hTambahAkun, hapusUser, toggleReqFree, hUbahPass, switchTab, hInputStok, tglKtg, hSimpanMenu, edMenu, batEdMenu, hapMenu, renJual, downloadCSV, prt, renDash, upEdPrc, oEdTrx, svEdTrx, pSelM, chgRad, uQty, addCart, rmCart, clrCart, doPay, tgMet, hitKemb, setPosTab, setMenuTab, bukaRiwayatKasir, bukaModalEditPass, cetakWebBrowser, cetakRawBT, submitFreeOrder, approveFree, rejectFree, onDateFilterChange, tutupBuku, setPackage, applyPackageUI, simpanLisensi, toggleLicenseInput });
-        window.onload = () => { let u = localStorage.getItem('allco_u'), p = localStorage.getItem('allco_p'); if (u && p) { el('login-username').value = u; el('login-password').value = p; handleLogin(); } };
+        function applyLogo(src) {
+            const img = el('header-logo-img');
+            const txt = el('header-logo-text');
+            const prev = el('logo-preview');
+            const prevWrap = el('logo-preview-wrap');
+            const btnHapus = el('btn-hapus-logo');
+            if (src) {
+                if (img) { img.src = src; img.classList.remove('hidden'); }
+                if (txt) txt.classList.add('hidden');
+                if (prev) prev.src = src;
+                if (prevWrap) prevWrap.classList.remove('hidden');
+                if (btnHapus) btnHapus.classList.remove('hidden');
+            } else {
+                if (img) { img.src = ''; img.classList.add('hidden'); }
+                if (txt) txt.classList.remove('hidden');
+                if (prev) prev.src = '';
+                if (prevWrap) prevWrap.classList.add('hidden');
+                if (btnHapus) btnHapus.classList.add('hidden');
+            }
+        }
+        function uploadLogo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { alert('Ukuran logo maksimal 2MB!'); return; }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64 = e.target.result;
+                localStorage.setItem('allco_logo', base64);
+                applyLogo(base64);
+            };
+            reader.readAsDataURL(file);
+        }
+        function hapusLogo() {
+            if (!confirm('Hapus logo toko?')) return;
+            localStorage.removeItem('allco_logo');
+            applyLogo(null);
+            el('input-logo-file').value = '';
+        }
+
+        Object.assign(window, { logout, oMod, cMod, handleLogin, hTambahAkun, hapusUser, toggleReqFree, hUbahPass, switchTab, hInputStok, tglKtg, hSimpanMenu, edMenu, batEdMenu, hapMenu, renJual, downloadCSV, prt, renDash, upEdPrc, oEdTrx, svEdTrx, pSelM, chgRad, uQty, addCart, rmCart, clrCart, doPay, tgMet, hitKemb, setPosTab, setMenuTab, bukaRiwayatKasir, bukaModalEditPass, cetakWebBrowser, cetakRawBT, submitFreeOrder, approveFree, rejectFree, onDateFilterChange, setPackage, applyPackageUI, simpanLisensi, toggleLicenseInput, uploadLogo, hapusLogo, toggleTheme });
+
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light-mode');
+            localStorage.setItem('allco_theme', isLight ? 'light' : 'dark');
+        }
+
+        window.onload = () => {
+            // Apply saved theme
+            if (localStorage.getItem('allco_theme') === 'light') document.body.classList.add('light-mode');
+            // Apply saved logo
+            const savedLogo = localStorage.getItem('allco_logo');
+            if (savedLogo) applyLogo(savedLogo);
+            // Auto-login if credentials saved
+            let u = localStorage.getItem('allco_u'), p = localStorage.getItem('allco_p');
+            if (u && p) { el('login-username').value = u; el('login-password').value = p; handleLogin(); }
+        };
     </script>
 </body>
 
